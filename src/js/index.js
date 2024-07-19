@@ -3,6 +3,7 @@ import '../scss/styles.scss';
 
 const selectElement = document.getElementById('select');
 const buttonElement = document.getElementById('button');
+const randomImageElement = document.getElementById('img-random');
 
 const getData = async () => {
   try {
@@ -25,19 +26,24 @@ const printAllBreeds = allBreeds => {
   selectElement.append(fragment);
 };
 
+const printImage = randomImages => {
+  randomImageElement.src = randomImages;
+};
+
 const randomImage = async () => {
+  const selectBreed = selectElement.value;
   try {
     const response = await fetch(
-      'https://dog.ceo/api/breed/affenpinscher/images/random'
+      `https://dog.ceo/api/breed/${selectBreed}/images/random`
     );
     const data = await response.json();
-    console.log(data.message);
+    const randomImages = data.message;
+    printImage(randomImages);
   } catch (error) {
     console.log(error);
   }
 };
-randomImage();
+
 getData();
-console.dir(selectElement);
 
 buttonElement.addEventListener('click', randomImage);
